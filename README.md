@@ -10,7 +10,7 @@
 - 🎤 **音频上传与录音**: 支持上传MP3/WAV文件或实时录音（5-10秒）
 - 🎭 **音色复刻**: 基于StepFun API进行音色复刻
 - 🎵 **TTS生成**: 使用复刻的音色生成语音
-- 🔢 **Embedding生成**: 临时使用随机向量作为embedding占位（后续可替换为真实codec模型）
+- 🔢 **Embedding生成**: codec模型编码embedding）
 -  **Web3 NFT**: 支持将Voice ID和Embedding Hash铸造为NFT上传至0G测试网
 
 
