@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Card, Input, Select, Button, message, Space, Row, Col, Divider } from 'antd';
+import { Card, Input, Select, Button, message, Space, Row, Col } from 'antd';
 import { SoundOutlined, DownloadOutlined, PlayCircleOutlined, AudioOutlined } from '@ant-design/icons';
 import { generateTTS } from '../api/tts';
 import { listVoices, type Voice } from '../api/voices';
+import { theme } from '../styles/theme';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -82,74 +83,109 @@ const TTSGeneration = () => {
       <Card 
         bordered={false}
         style={{ 
-          marginBottom: '32px',
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0 1px 3px rgba(44, 62, 80, 0.08)',
+          marginBottom: theme.spacing.xl,
+          background: theme.colors.warmWhite,
+          borderRadius: theme.borderRadius.large,
+          boxShadow: theme.shadows.card,
+          overflow: 'hidden',
         }}
-        bodyStyle={{ padding: '48px' }}
+        bodyStyle={{ padding: theme.spacing.xxl }}
       >
         <div style={{ 
           display: 'flex', 
           alignItems: 'center', 
-          marginBottom: '32px',
+          marginBottom: theme.spacing.xl,
         }}>
-          <PlayCircleOutlined style={{ fontSize: '24px', color: '#3498DB', marginRight: '12px' }} />
+          <PlayCircleOutlined style={{ 
+            fontSize: '28px', 
+            color: theme.colors.sage, 
+            marginRight: theme.spacing.md 
+          }} />
           <h2 style={{ 
             margin: 0, 
-            fontSize: '20px', 
+            fontFamily: theme.typography.display,
+            fontSize: '28px', 
             fontWeight: 600,
-            color: '#2C3E50',
-            letterSpacing: '-0.3px',
+            color: theme.colors.charcoal,
+            letterSpacing: '-0.5px',
           }}>
             效果示例
           </h2>
         </div>
         
-        <div style={{ marginBottom: '32px', color: '#6C757D', fontSize: '15px', lineHeight: '1.6' }}>
+        <div style={{ 
+          marginBottom: theme.spacing.xl, 
+          color: theme.colors.mutedText, 
+          fontSize: '16px', 
+          lineHeight: '1.7',
+          fontFamily: theme.typography.body,
+        }}>
           以下展示语音克隆的效果对比，原始音频与克隆后的音频
         </div>
         
-        <Row gutter={32}>
+        <Row gutter={theme.spacing.xl}>
           {/* Original Audio */}
           <Col xs={24} lg={12}>
             <div style={{ 
-              padding: '32px',
-              background: '#F8F9FA',
-              borderRadius: '8px',
+              padding: theme.spacing.xl,
+              background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}15 100%)`,
+              borderRadius: theme.borderRadius.medium,
               height: '100%',
+              border: `1px solid ${theme.colors.sage}30`,
             }}>
               <div style={{ 
                 display: 'flex',
                 alignItems: 'center',
-                marginBottom: '24px',
+                marginBottom: theme.spacing.lg,
               }}>
-                <AudioOutlined style={{ fontSize: '18px', color: '#6C757D', marginRight: '8px' }} />
+                <AudioOutlined style={{ 
+                  fontSize: '22px', 
+                  color: theme.colors.sand, 
+                  marginRight: theme.spacing.sm 
+                }} />
                 <h3 style={{ 
                   margin: 0, 
-                  fontSize: '16px', 
+                  fontSize: '20px', 
                   fontWeight: 600,
-                  color: '#2C3E50',
+                  color: theme.colors.charcoal,
+                  fontFamily: theme.typography.display,
                 }}>
                   原始音频
                 </h3>
               </div>
               
-              <div style={{ marginBottom: '16px' }}>
-                <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '4px' }}>说话人</div>
-                <div style={{ fontSize: '15px', color: '#2C3E50' }}>MCY</div>
+              <div style={{ marginBottom: theme.spacing.md }}>
+                <div style={{ 
+                  fontSize: '13px', 
+                  color: theme.colors.mutedText, 
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>说话人</div>
+                <div style={{ 
+                  fontSize: '17px', 
+                  color: theme.colors.charcoal,
+                  fontWeight: 500,
+                }}>MCY</div>
               </div>
               
-              <div style={{ marginBottom: '20px' }}>
-                <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '4px' }}>文本内容</div>
+              <div style={{ marginBottom: theme.spacing.lg }}>
                 <div style={{ 
-                  fontSize: '14px', 
-                  color: '#2C3E50',
-                  lineHeight: '1.6',
-                  padding: '12px',
-                  background: '#FFFFFF',
-                  borderRadius: '6px',
-                  border: '1px solid #E9ECEF',
+                  fontSize: '13px', 
+                  color: theme.colors.mutedText, 
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>文本内容</div>
+                <div style={{ 
+                  fontSize: '15px', 
+                  color: theme.colors.charcoal,
+                  lineHeight: '1.7',
+                  padding: theme.spacing.md,
+                  background: theme.colors.warmWhite,
+                  borderRadius: theme.borderRadius.small,
+                  border: `1px solid ${theme.colors.sage}20`,
+                  fontFamily: theme.typography.body,
                 }}>
                   "欢迎来到周周黑客松，来开始你的表演吧"
                 </div>
@@ -157,7 +193,11 @@ const TTSGeneration = () => {
               
               <audio 
                 controls 
-                style={{ width: '100%', height: '40px' }}
+                style={{ 
+                  width: '100%', 
+                  height: '48px',
+                  borderRadius: theme.borderRadius.small,
+                }}
                 preload="metadata"
               >
                 <source src="/mcy.wav" type="audio/wav" />
@@ -168,42 +208,66 @@ const TTSGeneration = () => {
           {/* Cloned Audio */}
           <Col xs={24} lg={12}>
             <div style={{ 
-              padding: '32px',
-              background: '#F8F9FA',
-              borderRadius: '8px',
+              padding: theme.spacing.xl,
+              background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}25 100%)`,
+              borderRadius: theme.borderRadius.medium,
               height: '100%',
+              border: `2px solid ${theme.colors.sage}40`,
             }}>
               <div style={{ 
                 display: 'flex',
                 alignItems: 'center',
-                marginBottom: '24px',
+                marginBottom: theme.spacing.lg,
               }}>
-                <SoundOutlined style={{ fontSize: '18px', color: '#3498DB', marginRight: '8px' }} />
+                <SoundOutlined style={{ 
+                  fontSize: '22px', 
+                  color: theme.colors.sage, 
+                  marginRight: theme.spacing.sm 
+                }} />
                 <h3 style={{ 
                   margin: 0, 
-                  fontSize: '16px', 
+                  fontSize: '20px', 
                   fontWeight: 600,
-                  color: '#2C3E50',
+                  color: theme.colors.charcoal,
+                  fontFamily: theme.typography.display,
                 }}>
                   克隆后音频
                 </h3>
               </div>
               
-              <div style={{ marginBottom: '16px' }}>
-                <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '4px' }}>克隆模型</div>
-                <div style={{ fontSize: '15px', color: '#2C3E50' }}>step-tts-2</div>
+              <div style={{ marginBottom: theme.spacing.md }}>
+                <div style={{ 
+                  fontSize: '13px', 
+                  color: theme.colors.mutedText, 
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>克隆模型</div>
+                <div style={{ 
+                  fontSize: '17px', 
+                  color: theme.colors.sage,
+                  fontWeight: 600,
+                  fontFamily: theme.typography.mono,
+                }}>step-tts-2</div>
               </div>
               
-              <div style={{ marginBottom: '20px' }}>
-                <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '4px' }}>文本内容</div>
+              <div style={{ marginBottom: theme.spacing.lg }}>
                 <div style={{ 
-                  fontSize: '14px', 
-                  color: '#2C3E50',
-                  lineHeight: '1.6',
-                  padding: '12px',
-                  background: '#FFFFFF',
-                  borderRadius: '6px',
-                  border: '1px solid #E9ECEF',
+                  fontSize: '13px', 
+                  color: theme.colors.mutedText, 
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>文本内容</div>
+                <div style={{ 
+                  fontSize: '15px', 
+                  color: theme.colors.charcoal,
+                  lineHeight: '1.7',
+                  padding: theme.spacing.md,
+                  background: theme.colors.warmWhite,
+                  borderRadius: theme.borderRadius.small,
+                  border: `1px solid ${theme.colors.sage}30`,
+                  fontFamily: theme.typography.body,
                 }}>
                   "一个让克隆声音真正活起来的智能人格语音生态：带情绪、长期记忆、互动体验与场景化价值。"
                 </div>
@@ -211,7 +275,11 @@ const TTSGeneration = () => {
               
               <audio 
                 controls 
-                style={{ width: '100%', height: '40px' }}
+                style={{ 
+                  width: '100%', 
+                  height: '48px',
+                  borderRadius: theme.borderRadius.small,
+                }}
                 preload="metadata"
               >
                 <source src="/mcy-clone.wav" type="audio/wav" />
@@ -225,25 +293,33 @@ const TTSGeneration = () => {
       <Card 
         bordered={false}
         style={{ 
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0 1px 3px rgba(44, 62, 80, 0.08)',
+          background: theme.colors.warmWhite,
+          borderRadius: theme.borderRadius.large,
+          boxShadow: theme.shadows.card,
         }}
-        bodyStyle={{ padding: '48px' }}
+        bodyStyle={{ padding: theme.spacing.xxl }}
       >
         <h2 style={{ 
-          margin: '0 0 32px 0', 
-          fontSize: '20px', 
+          margin: `0 0 ${theme.spacing.xl} 0`, 
+          fontFamily: theme.typography.display,
+          fontSize: '28px', 
           fontWeight: 600,
-          color: '#2C3E50',
-          letterSpacing: '-0.3px',
+          color: theme.colors.charcoal,
+          letterSpacing: '-0.5px',
         }}>
           生成语音
         </h2>
 
-        <Space direction="vertical" size={24} style={{ width: '100%' }}>
+        <Space direction="vertical" size={theme.spacing.lg} style={{ width: '100%' }}>
           <div>
-            <div style={{ marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#2C3E50' }}>
+            <div style={{ 
+              marginBottom: theme.spacing.sm, 
+              fontSize: '14px', 
+              fontWeight: 500, 
+              color: theme.colors.charcoal,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
               选择语音角色
             </div>
             <Select
@@ -266,7 +342,14 @@ const TTSGeneration = () => {
           </div>
 
           <div>
-            <div style={{ marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#2C3E50' }}>
+            <div style={{ 
+              marginBottom: theme.spacing.sm, 
+              fontSize: '14px', 
+              fontWeight: 500, 
+              color: theme.colors.charcoal,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
               模型选择
             </div>
             <Select 
@@ -283,7 +366,14 @@ const TTSGeneration = () => {
           </div>
 
           <div>
-            <div style={{ marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#2C3E50' }}>
+            <div style={{ 
+              marginBottom: theme.spacing.sm, 
+              fontSize: '14px', 
+              fontWeight: 500, 
+              color: theme.colors.charcoal,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
               输入文本
             </div>
             <TextArea
@@ -291,7 +381,11 @@ const TTSGeneration = () => {
               onChange={(e) => setInputText(e.target.value)}
               placeholder="请输入要转换为语音的文本"
               rows={6}
-              style={{ fontSize: '15px' }}
+              style={{ 
+                fontSize: '16px',
+                fontFamily: theme.typography.body,
+                lineHeight: '1.7',
+              }}
             />
           </div>
 
@@ -302,11 +396,13 @@ const TTSGeneration = () => {
             onClick={handleGenerate}
             loading={generating}
             block
+            className="gradient-button"
             style={{ 
-              height: '48px',
-              fontSize: '15px',
-              fontWeight: 500,
-              borderRadius: '8px',
+              height: '56px',
+              fontSize: '16px',
+              fontWeight: 600,
+              borderRadius: theme.borderRadius.medium,
+              fontFamily: theme.typography.body,
             }}
           >
             生成音频
@@ -314,23 +410,38 @@ const TTSGeneration = () => {
 
           {(audioUrl || audioBase64) && (
             <div style={{ 
-              padding: '24px',
-              background: '#F8F9FA',
-              borderRadius: '8px',
-              marginTop: '8px',
+              padding: theme.spacing.xl,
+              background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}15 100%)`,
+              borderRadius: theme.borderRadius.medium,
+              marginTop: theme.spacing.md,
+              border: `1px solid ${theme.colors.sage}30`,
             }}>
-              <div style={{ marginBottom: '16px', fontSize: '14px', fontWeight: 500, color: '#2C3E50' }}>
+              <div style={{ 
+                marginBottom: theme.spacing.md, 
+                fontSize: '16px', 
+                fontWeight: 600, 
+                color: theme.colors.charcoal,
+                fontFamily: theme.typography.display,
+              }}>
                 生成结果
               </div>
               <audio
                 controls
-                style={{ width: '100%', marginBottom: '16px', height: '40px' }}
+                style={{ 
+                  width: '100%', 
+                  marginBottom: theme.spacing.md, 
+                  height: '48px',
+                  borderRadius: theme.borderRadius.small,
+                }}
                 src={audioUrl || `data:audio/mp3;base64,${audioBase64}`}
               />
               <Button 
                 icon={<DownloadOutlined />} 
                 onClick={handleDownload}
-                style={{ borderRadius: '6px' }}
+                style={{ 
+                  borderRadius: theme.borderRadius.small,
+                  height: '40px',
+                }}
               >
                 下载音频
               </Button>
