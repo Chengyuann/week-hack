@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Descriptions, Button, Spin, message } from 'antd';
 import { ArrowLeftOutlined, DownloadOutlined } from '@ant-design/icons';
-import { getVoice, Voice } from '../api/voices';
+import { getVoice, type Voice } from '../api/voices';
 
 const VoiceDetail = () => {
   const { id } = useParams<{ id: string }>();

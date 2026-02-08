@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, List, Button, Popconfirm, message, Empty } from 'antd';
 import { DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { listVoices, deleteVoice, Voice } from '../api/voices';
+import { listVoices, deleteVoice, type Voice } from '../api/voices';
 import { useNavigate } from 'react-router-dom';
 
 const MyVoices = () => {

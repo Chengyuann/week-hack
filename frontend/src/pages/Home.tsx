@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Input, Row, Col, Button, Spin, Empty, message } from 'antd';
 import { SearchOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { listVoices, Voice } from '../api/voices';
+import { listVoices, type Voice } from '../api/voices';
 import { useNavigate } from 'react-router-dom';
 
 const { Search } = Input;

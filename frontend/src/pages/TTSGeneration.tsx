@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card, Input, Select, Button, message, Space } from 'antd';
 import { SoundOutlined, DownloadOutlined } from '@ant-design/icons';
 import { generateTTS } from '../api/tts';
-import { listVoices, Voice } from '../api/voices';
+import { listVoices, type Voice } from '../api/voices';
 
 const { TextArea } = Input;
 const { Option } = Select;
