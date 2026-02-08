@@ -12,6 +12,7 @@ import { uploadFile } from '../api/files';
 import { createVoice } from '../api/voices';
 import AudioRecorder from '../components/AudioRecorder';
 import AudioWaveform from '../components/AudioWaveform';
+import { theme } from '../styles/theme';
 
 type ProcessingStep = 'upload' | 'processing' | 'complete';
 
@@ -92,38 +93,48 @@ const CreateVoice = () => {
       <Card 
         bordered={false}
         style={{ 
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0 1px 3px rgba(44, 62, 80, 0.08)',
+          background: theme.colors.warmWhite,
+          borderRadius: theme.borderRadius.large,
+          boxShadow: theme.shadows.card,
+          overflow: 'hidden',
         }}
-        bodyStyle={{ padding: '48px' }}
+        bodyStyle={{ padding: theme.spacing.xxl }}
       >
         <h2 style={{ 
-          margin: '0 0 8px 0', 
-          fontSize: '20px', 
+          margin: `0 0 ${theme.spacing.sm} 0`, 
+          fontFamily: theme.typography.display,
+          fontSize: '32px', 
           fontWeight: 600,
-          color: '#2C3E50',
-          letterSpacing: '-0.3px',
+          color: theme.colors.charcoal,
+          letterSpacing: '-0.5px',
         }}>
           创建语音角色
         </h2>
         <p style={{ 
-          margin: '0 0 32px 0', 
-          fontSize: '14px', 
-          color: '#6C757D',
-          lineHeight: '1.6',
+          margin: `0 0 ${theme.spacing.xl} 0`, 
+          fontSize: '15px', 
+          color: theme.colors.mutedText,
+          lineHeight: '1.7',
+          fontFamily: theme.typography.body,
         }}>
           使用 Codec 模型将音频编码成 Embedding
         </p>
 
-        <Space direction="vertical" size={32} style={{ width: '100%' }}>
+        <Space direction="vertical" size={theme.spacing.xl} style={{ width: '100%' }}>
           {/* Upload Section */}
           <div>
-            <div style={{ marginBottom: '16px', fontSize: '14px', fontWeight: 500, color: '#2C3E50' }}>
+            <div style={{ 
+              marginBottom: theme.spacing.md, 
+              fontSize: '14px', 
+              fontWeight: 600, 
+              color: theme.colors.charcoal,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
               上传或录制音频（1-10秒）
             </div>
             
-            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Space direction="vertical" size={theme.spacing.md} style={{ width: '100%' }}>
               <Upload
                 beforeUpload={handleFileSelect}
                 accept="audio/mpeg,audio/wav,audio/mp3,audio/webm"
@@ -134,7 +145,13 @@ const CreateVoice = () => {
                   icon={<UploadOutlined />} 
                   disabled={processing}
                   size="large"
-                  style={{ borderRadius: '8px', height: '48px', fontSize: '15px' }}
+                  className="gradient-button"
+                  style={{ 
+                    borderRadius: theme.borderRadius.medium, 
+                    height: '56px', 
+                    fontSize: '16px',
+                    fontWeight: 600,
+                  }}
                 >
                   选择音频文件
                 </Button>
@@ -150,18 +167,39 @@ const CreateVoice = () => {
 
             {file && (
               <div style={{ 
-                marginTop: '24px', 
-                padding: '24px', 
-                background: '#F8F9FA', 
-                borderRadius: '8px',
+                marginTop: theme.spacing.lg, 
+                padding: theme.spacing.xl, 
+                background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}15 100%)`,
+                borderRadius: theme.borderRadius.medium,
+                border: `1px solid ${theme.colors.sage}30`,
               }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <span style={{ fontSize: '13px', color: '#6C757D' }}>文件名：</span>
-                  <span style={{ fontSize: '14px', color: '#2C3E50', marginLeft: '8px' }}>{file.name}</span>
+                <div style={{ marginBottom: theme.spacing.sm }}>
+                  <span style={{ 
+                    fontSize: '13px', 
+                    color: theme.colors.mutedText,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}>文件名：</span>
+                  <span style={{ 
+                    fontSize: '15px', 
+                    color: theme.colors.charcoal, 
+                    marginLeft: theme.spacing.sm,
+                    fontFamily: theme.typography.mono,
+                  }}>{file.name}</span>
                 </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <span style={{ fontSize: '13px', color: '#6C757D' }}>大小：</span>
-                  <span style={{ fontSize: '14px', color: '#2C3E50', marginLeft: '8px' }}>
+                <div style={{ marginBottom: theme.spacing.md }}>
+                  <span style={{ 
+                    fontSize: '13px', 
+                    color: theme.colors.mutedText,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}>大小：</span>
+                  <span style={{ 
+                    fontSize: '15px', 
+                    color: theme.colors.charcoal, 
+                    marginLeft: theme.spacing.sm,
+                    fontFamily: theme.typography.mono,
+                  }}>
                     {(file.size / 1024).toFixed(2)} KB
                   </span>
                 </div>
@@ -170,25 +208,38 @@ const CreateVoice = () => {
             )}
 
             {processing && currentStep === 'upload' && (
-              <div style={{ marginTop: '24px' }}>
-                <div style={{ marginBottom: '12px', fontSize: '14px', color: '#6C757D' }}>上传中...</div>
+              <div style={{ marginTop: theme.spacing.lg }}>
+                <div style={{ 
+                  marginBottom: theme.spacing.sm, 
+                  fontSize: '14px', 
+                  color: theme.colors.mutedText,
+                  fontFamily: theme.typography.body,
+                }}>上传中...</div>
                 <Progress 
                   percent={uploadProgress} 
-                  strokeColor="#3498DB"
-                  trailColor="#E9ECEF"
+                  strokeColor={theme.colors.sage}
+                  trailColor={`${theme.colors.sage}20`}
+                  strokeWidth={8}
                 />
               </div>
             )}
 
             {processing && currentStep === 'processing' && (
-              <div style={{ marginTop: '24px' }}>
+              <div style={{ marginTop: theme.spacing.lg }}>
                 <Progress 
                   percent={100} 
                   status="active"
-                  strokeColor="#3498DB"
-                  trailColor="#E9ECEF"
+                  strokeColor={theme.colors.sage}
+                  trailColor={`${theme.colors.sage}20`}
+                  strokeWidth={8}
                 />
-                <div style={{ marginTop: '12px', textAlign: 'center', color: '#3498DB', fontSize: '14px' }}>
+                <div style={{ 
+                  marginTop: theme.spacing.sm, 
+                  textAlign: 'center', 
+                  color: theme.colors.sage, 
+                  fontSize: '15px',
+                  fontFamily: theme.typography.body,
+                }}>
                   正在生成语音角色...
                 </div>
               </div>
@@ -204,11 +255,12 @@ const CreateVoice = () => {
               loading={processing}
               disabled={!file || processing}
               block
+              className="gradient-button"
               style={{ 
-                height: '48px',
-                fontSize: '15px',
-                fontWeight: 500,
-                borderRadius: '8px',
+                height: '56px',
+                fontSize: '16px',
+                fontWeight: 600,
+                borderRadius: theme.borderRadius.medium,
               }}
             >
               {processing ? '创建中...' : '创建语音角色'}
@@ -218,54 +270,72 @@ const CreateVoice = () => {
           {/* Success Result */}
           {voiceResult && (
             <div style={{ 
-              padding: '32px',
-              background: '#F8F9FA',
-              borderRadius: '8px',
+              padding: theme.spacing.xl,
+              background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}25 100%)`,
+              borderRadius: theme.borderRadius.medium,
+              border: `2px solid ${theme.colors.sage}40`,
             }}>
               <div style={{ 
                 display: 'flex',
                 alignItems: 'center',
-                marginBottom: '24px',
+                marginBottom: theme.spacing.lg,
               }}>
-                <CheckCircleOutlined style={{ fontSize: '24px', color: '#27AE60', marginRight: '12px' }} />
+                <CheckCircleOutlined style={{ 
+                  fontSize: '28px', 
+                  color: theme.colors.sage, 
+                  marginRight: theme.spacing.md 
+                }} />
                 <h3 style={{ 
                   margin: 0, 
-                  fontSize: '18px', 
+                  fontSize: '24px', 
                   fontWeight: 600,
-                  color: '#2C3E50',
+                  color: theme.colors.charcoal,
+                  fontFamily: theme.typography.display,
                 }}>
                   创建成功
                 </h3>
               </div>
 
-              <Space direction="vertical" size={20} style={{ width: '100%' }}>
+              <Space direction="vertical" size={theme.spacing.lg} style={{ width: '100%' }}>
                 <div>
-                  <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '8px' }}>Voice ID</div>
                   <div style={{ 
-                    padding: '12px', 
-                    background: '#FFFFFF', 
-                    borderRadius: '6px',
-                    fontFamily: 'monospace',
+                    fontSize: '13px', 
+                    color: theme.colors.mutedText, 
+                    marginBottom: theme.spacing.sm,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}>Voice ID</div>
+                  <div style={{ 
+                    padding: theme.spacing.md, 
+                    background: theme.colors.warmWhite, 
+                    borderRadius: theme.borderRadius.small,
+                    fontFamily: theme.typography.mono,
                     fontSize: '14px',
-                    color: '#2C3E50',
+                    color: theme.colors.charcoal,
                     wordBreak: 'break-all',
-                    border: '1px solid #E9ECEF',
+                    border: `1px solid ${theme.colors.sage}30`,
                   }}>
                     {voiceResult.voiceId}
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '8px' }}>Embedding Hash</div>
                   <div style={{ 
-                    padding: '12px', 
-                    background: '#FFFFFF', 
-                    borderRadius: '6px',
-                    fontFamily: 'monospace',
+                    fontSize: '13px', 
+                    color: theme.colors.mutedText, 
+                    marginBottom: theme.spacing.sm,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}>Embedding Hash</div>
+                  <div style={{ 
+                    padding: theme.spacing.md, 
+                    background: theme.colors.warmWhite, 
+                    borderRadius: theme.borderRadius.small,
+                    fontFamily: theme.typography.mono,
                     fontSize: '14px',
-                    color: '#2C3E50',
+                    color: theme.colors.charcoal,
                     wordBreak: 'break-all',
-                    border: '1px solid #E9ECEF',
+                    border: `1px solid ${theme.colors.sage}30`,
                   }}>
                     {voiceResult.embeddingHash}
                   </div>
@@ -273,11 +343,21 @@ const CreateVoice = () => {
 
                 {voiceResult.sampleAudio && (
                   <div>
-                    <div style={{ fontSize: '13px', color: '#6C757D', marginBottom: '8px' }}>试听音频</div>
+                    <div style={{ 
+                      fontSize: '13px', 
+                      color: theme.colors.mutedText, 
+                      marginBottom: theme.spacing.sm,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                    }}>试听音频</div>
                     <audio 
                       controls 
                       src={`data:audio/wav;base64,${voiceResult.sampleAudio}`}
-                      style={{ width: '100%', height: '40px' }}
+                      style={{ 
+                        width: '100%', 
+                        height: '48px',
+                        borderRadius: theme.borderRadius.small,
+                      }}
                     />
                   </div>
                 )}
@@ -287,12 +367,13 @@ const CreateVoice = () => {
                   onClick={handleReset} 
                   block
                   size="large"
+                  className="gradient-button"
                   style={{ 
-                    height: '48px',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                    borderRadius: '8px',
-                    marginTop: '8px',
+                    height: '56px',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    borderRadius: theme.borderRadius.medium,
+                    marginTop: theme.spacing.md,
                   }}
                 >
                   创建新角色

@@ -3,6 +3,7 @@ import { Card, List, Button, Popconfirm, message, Empty } from 'antd';
 import { DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { listVoices, deleteVoice, type Voice } from '../api/voices';
 import { useNavigate } from 'react-router-dom';
+import { theme } from '../styles/theme';
 
 const MyVoices = () => {
   const [voices, setVoices] = useState<Voice[]>([]);
@@ -41,24 +42,77 @@ const MyVoices = () => {
   };
 
   if (loading) {
-    return <div>加载中...</div>;
+    return (
+      <div style={{ textAlign: 'center', padding: '120px 0' }}>
+        <div style={{ 
+          fontSize: '18px', 
+          color: theme.colors.mutedText,
+          fontFamily: theme.typography.body,
+        }}>加载中...</div>
+      </div>
+    );
   }
 
   if (voices.length === 0) {
-    return <Empty description="您还没有创建任何角色" />;
+    return (
+      <div style={{ textAlign: 'center', padding: '120px 0' }}>
+        <Empty 
+          description={
+            <span style={{ 
+              fontSize: '16px', 
+              color: theme.colors.mutedText,
+              fontFamily: theme.typography.body,
+            }}>
+              您还没有创建任何角色
+            </span>
+          } 
+        />
+      </div>
+    );
   }
 
   return (
-    <Card title="我的角色">
+    <Card 
+      bordered={false}
+      style={{ 
+        background: theme.colors.warmWhite,
+        borderRadius: theme.borderRadius.large,
+        boxShadow: theme.shadows.card,
+      }}
+      bodyStyle={{ padding: theme.spacing.xxl }}
+      title={
+        <h2 style={{ 
+          margin: 0, 
+          fontFamily: theme.typography.display,
+          fontSize: '28px', 
+          fontWeight: 600,
+          color: theme.colors.charcoal,
+          letterSpacing: '-0.5px',
+        }}>
+          我的角色
+        </h2>
+      }
+    >
       <List
         dataSource={voices}
         renderItem={(voice) => (
           <List.Item
+            style={{
+              padding: theme.spacing.lg,
+              marginBottom: theme.spacing.md,
+              background: `linear-gradient(135deg, ${theme.colors.warmWhite} 0%, ${theme.colors.sage}10 100%)`,
+              borderRadius: theme.borderRadius.medium,
+              border: `1px solid ${theme.colors.sage}20`,
+            }}
             actions={[
               <Button
                 type="link"
                 icon={<PlayCircleOutlined />}
                 onClick={() => navigate(`/voices/${voice.id}`)}
+                style={{ 
+                  color: theme.colors.sage,
+                  fontFamily: theme.typography.body,
+                }}
               >
                 查看
               </Button>,
@@ -68,16 +122,34 @@ const MyVoices = () => {
                 okText="确定"
                 cancelText="取消"
               >
-                <Button type="link" danger icon={<DeleteOutlined />}>
+                <Button 
+                  type="link" 
+                  danger 
+                  icon={<DeleteOutlined />}
+                  style={{ fontFamily: theme.typography.body }}
+                >
                   删除
                 </Button>
               </Popconfirm>,
             ]}
           >
             <List.Item.Meta
-              title={`Voice ${voice.id.slice(0, 8)}...`}
+              title={
+                <span style={{ 
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: theme.colors.charcoal,
+                  fontFamily: theme.typography.display,
+                }}>
+                  Voice {voice.id.slice(0, 8)}...
+                </span>
+              }
               description={
-                <div>
+                <div style={{ 
+                  color: theme.colors.mutedText,
+                  fontFamily: theme.typography.body,
+                  fontSize: '14px',
+                }}>
                   <div>模型: {voice.model}</div>
                   <div>创建时间: {new Date(voice.createdAt).toLocaleString()}</div>
                 </div>
